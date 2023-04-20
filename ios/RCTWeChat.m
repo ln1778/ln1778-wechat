@@ -43,7 +43,7 @@ RCT_EXPORT_MODULE()
     NSString * aURLString =  [aNotification userInfo][@"url"];
     NSURL * aURL = [NSURL URLWithString:aURLString];
 
-    if ([WxChatApi handleOpenURL:aURL delegate:self])
+    if ([WXApi handleOpenURL:aURL delegate:self])
     {
         return YES;
     } else {
@@ -61,42 +61,39 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(registerApp:(NSString *)appid
+                  :(NSString *)universalLink
                   :(RCTResponseSenderBlock)callback)
 {
     self.appId = appid;
-    callback(@[[WxChatApi registerApp:appid] ? [NSNull null] : INVOKE_FAILED]);
+   bool state=[WXApi registerApp:appid universalLink:universalLink];
+  callback(@[state ? [NSNull null] : INVOKE_FAILED]);
 }
 
-RCT_EXPORT_METHOD(registerAppWithDescription:(NSString *)appid
-                  :(NSString *)appdesc
-                  :(RCTResponseSenderBlock)callback)
-{
-    callback(@[[WxChatApi registerApp:appid withDescription:appdesc] ? [NSNull null] : INVOKE_FAILED]);
-}
+
 
 RCT_EXPORT_METHOD(isWXAppInstalled:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], @([WxChatApi isWXAppInstalled])]);
+    callback(@[[NSNull null], @([WXApi isWXAppInstalled])]);
 }
 
 RCT_EXPORT_METHOD(isWXAppSupportApi:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], @([WxChatApi isWXAppSupportApi])]);
+    callback(@[[NSNull null], @([WXApi isWXAppSupportApi])]);
 }
 
 RCT_EXPORT_METHOD(getWXAppInstallUrl:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], [WxChatApi getWXAppInstallUrl]]);
+    callback(@[[NSNull null], [WXApi getWXAppInstallUrl]]);
 }
 
 RCT_EXPORT_METHOD(getApiVersion:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], [WxChatApi getApiVersion]]);
+    callback(@[[NSNull null], [WXApi getApiVersion]]);
 }
 
 RCT_EXPORT_METHOD(openWXApp:(RCTResponseSenderBlock)callback)
 {
-    callback(@[([WxChatApi openWXApp] ? [NSNull null] : INVOKE_FAILED)]);
+    callback(@[([WXApi openWXApp] ? [NSNull null] : INVOKE_FAILED)]);
 }
 
 RCT_EXPORT_METHOD(sendRequest:(NSString *)openid
@@ -104,7 +101,10 @@ RCT_EXPORT_METHOD(sendRequest:(NSString *)openid
 {
     BaseReq* req = [[BaseReq alloc] init];
     req.openID = openid;
-    callback(@[[WxChatApi sendReq:req] ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    }];
+   
 }
 RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
                   :(NSString *)url
@@ -113,19 +113,21 @@ RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];;
     req.corpid = corpId;                                  // 企业ID
     req.url = url;
-   BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 RCT_EXPORT_METHOD(launchMiniProgramReq:(NSString *)userName
                   :(NSString *)path
                   :(RCTResponseSenderBlock)callback)
 {
-    WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
-    launchMiniProgramReq.userName = userName;  //拉起的小程序的username
-    launchMiniProgramReq.path = path;    ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-    launchMiniProgramReq.miniProgramType = 0; //拉起小程序的类型
-    BOOL success = [WxChatApi sendReq:launchMiniProgramReq];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    WXLaunchMiniProgramReq *req = [WXLaunchMiniProgramReq object];
+    req.userName = userName;  //拉起的小程序的username
+    req.path = path;    ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+    req.miniProgramType = 0;
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 RCT_EXPORT_METHOD(subscribeMsgReq:(NSString *)scene
@@ -137,8 +139,9 @@ RCT_EXPORT_METHOD(subscribeMsgReq:(NSString *)scene
     req.scene = scene;
     req.templateId = templateId;
     req.reserved = reserved;
-    BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 RCT_EXPORT_METHOD(sendAuthRequest:(NSString *)scope
                   :(NSString *)state
@@ -147,15 +150,19 @@ RCT_EXPORT_METHOD(sendAuthRequest:(NSString *)scope
     SendAuthReq* req = [[SendAuthReq alloc] init];
     req.scope = scope;
     req.state = state;
-    BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 RCT_EXPORT_METHOD(sendSuccessResponse:(RCTResponseSenderBlock)callback)
 {
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXSuccess;
-    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendResp:resp completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
+   
 }
 
 RCT_EXPORT_METHOD(sendErrorCommonResponse:(NSString *)message
@@ -164,7 +171,9 @@ RCT_EXPORT_METHOD(sendErrorCommonResponse:(NSString *)message
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXErrCodeCommon;
     resp.errStr = message;
-    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendResp:resp completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 RCT_EXPORT_METHOD(sendErrorUserCancelResponse:(NSString *)message
@@ -173,7 +182,9 @@ RCT_EXPORT_METHOD(sendErrorUserCancelResponse:(NSString *)message
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXErrCodeUserCancel;
     resp.errStr = message;
-    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendResp:resp completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 RCT_EXPORT_METHOD(shareToTimeline:(NSDictionary *)data
@@ -204,8 +215,9 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.timeStamp           = [data[@"timeStamp"] unsignedIntValue];
     req.package             = data[@"package"];
     req.sign                = data[@"sign"];
-    BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 - (void)shareToWeixinWithData:(NSDictionary *)aData
@@ -350,9 +362,9 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.bText = YES;
     req.scene = aScene;
     req.text = text;
-
-    BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 - (void)shareToWeixinWithMediaMessage:(int)aScene
@@ -379,8 +391,9 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.scene = aScene;
     req.message = message;
 
-    BOOL success = [WxChatApi sendReq:req];
-    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
+    [WXApi sendReq:req completion:^(BOOL success) {
+        callback(@[success? [NSNull null] : INVOKE_FAILED]);
+    }];
 }
 
 #pragma mark - wx callback

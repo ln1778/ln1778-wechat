@@ -43,7 +43,6 @@
 		86D238551BD0BC1000C75D01 /* RCTWeChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTWeChat.m; sourceTree = SOURCE_ROOT; };
 		86D238581BD0BC2200C75D01 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		86D238591BD0BC2200C75D01 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		AA3E52E729F1A1F500F3BDA1 /* WxChatApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WxChatApi.h; sourceTree = "<group>"; };
 		AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWechatOpenSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,7 +84,6 @@
 		86D238391BD0BB9E00C75D01 = {
 			isa = PBXGroup;
 			children = (
-				AA3E52E729F1A1F500F3BDA1 /* WxChatApi.h */,
 				AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */,
 				86D238581BD0BC2200C75D01 /* WXApi.h */,
 				86D238591BD0BC2200C75D01 /* WXApiObject.h */,

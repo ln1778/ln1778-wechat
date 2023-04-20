@@ -11,8 +11,8 @@
 
 #import <React/RCTBridgeModule.h>
 //#import "WXApi.h"
-//#import <WXApi.h>
-#import "WxChatApi.h"
+#import <WXApi.h>
+//#import "WXApi.h"
 
 
 // define share type constants
@@ -34,7 +34,7 @@
 
 #define RCTWXEventName @"WeChat_Resp"
 
-@interface RCTWeChat : NSObject <RCTBridgeModule,WxChatApiDelegate>
+@interface RCTWeChat : NSObject <RCTBridgeModule,WXApiDelegate>
 
 @property NSString* appId;
 

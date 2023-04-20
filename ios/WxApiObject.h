@@ -51,31 +51,6 @@ enum WXBizProfileType {
     WXBizProfileType_Device = 1,    //**< 硬件公众号  */
 };
 
-
-/*! @brief 应用支持接收微信的文件类型
- *
- */
-typedef NS_ENUM(UInt64, enAppSupportContentFlag)
-{
-    MMAPP_SUPPORT_NOCONTENT = 0x0,
-    MMAPP_SUPPORT_TEXT      = 0x1,
-    MMAPP_SUPPORT_PICTURE   = 0x2,
-    MMAPP_SUPPORT_LOCATION  = 0x4,
-    MMAPP_SUPPORT_VIDEO     = 0x8,
-    MMAPP_SUPPORT_AUDIO     = 0x10,
-    MMAPP_SUPPORT_WEBPAGE   = 0x20,
-    
-    // Suport File Type
-    MMAPP_SUPPORT_DOC  = 0x40,               // doc
-    MMAPP_SUPPORT_DOCX = 0x80,               // docx
-    MMAPP_SUPPORT_PPT  = 0x100,              // ppt
-    MMAPP_SUPPORT_PPTX = 0x200,              // pptx
-    MMAPP_SUPPORT_XLS  = 0x400,              // xls
-    MMAPP_SUPPORT_XLSX = 0x800,              // xlsx
-    MMAPP_SUPPORT_PDF  = 0x1000,             // pdf
-};
-
-
 /*! @brief 分享小程序类型
  *
  */
@@ -170,8 +145,7 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 
 
 
-#pragma mark - BaseReq
-
+#pragma mark - BaseResp
 /*! @brief 该类为微信终端SDK所有响应类的基类
  *
  */
@@ -227,30 +201,6 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @property (nonatomic, copy) NSString *returnKey;
 
 @end
-
-@interface HBReq : BaseReq
-
-/** 随机串，防重发 */
-@property (nonatomic, retain) NSString *nonceStr;
-/** 时间戳，防重发 */
-@property (nonatomic, assign) UInt32 timeStamp;
-/** 商家根据微信企业红包开发文档填写的数据和签名 */
-@property (nonatomic, retain) NSString *package;
-/** 商家根据微信企业红包开发文档对数据做的签名 */
-@property (nonatomic, retain) NSString *sign;
-
-@end
-
-#pragma mark - HBResp
-/*! @brief 微信终端返回给第三方的关于拆企业红包结果的结构体
- *
- *  微信终端返回给第三方的关于拆企业红包结果的结构体
- */
-@interface HBResp : BaseResp
-
-@end
-
-
 
 #pragma mark - WXOfflinePay
 /*! @brief 第三方向微信终端发起离线支付
@@ -524,18 +474,13 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @end
 
 
-#pragma mark - ShowMessageFromWXResp
-/*! @brief 微信通知第三方程序，要求第三方程序显示或处理某些消息，第三方程序处理完后向微信终端发送的处理结果。
+
+#pragma mark - ShowMessageFromWXReq
+/*! @brief 微信通知第三方程序，要求第三方程序显示的消息结构体。
  *
  * 微信需要通知第三方程序显示或处理某些内容时，会向第三方程序发送ShowMessageFromWXReq消息结构体。
  * 第三方程序处理完内容后调用sendResp向微信终端发送ShowMessageFromWXResp。
  */
-@interface ShowMessageFromWXResp : BaseResp
-@end
-
-
-
-
 @interface ShowMessageFromWXReq : BaseReq
 /** 微信终端向第三方程序发送的要求第三方程序处理的多媒体内容
  * @see WXMediaMessage
@@ -547,22 +492,15 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 
 
 
-
-#pragma mark - OpenTempSessionReq
-/* ! @brief 第三方通知微信，打开临时会话
+#pragma mark - ShowMessageFromWXResp
+/*! @brief 微信通知第三方程序，要求第三方程序显示或处理某些消息，第三方程序处理完后向微信终端发送的处理结果。
  *
- * 第三方通知微信，打开临时会话
+ * 微信需要通知第三方程序显示或处理某些内容时，会向第三方程序发送ShowMessageFromWXReq消息结构体。
+ * 第三方程序处理完内容后调用sendResp向微信终端发送ShowMessageFromWXResp。
  */
-@interface OpenTempSessionReq : BaseReq
-/** 需要打开的用户名
- * @attention 长度不能超过512字节
- */
-@property (nonatomic, retain) NSString* username;
-/** 开发者自定义参数，拉起临时会话后会发给开发者后台，可以用于识别场景
- * @attention 长度不能超过32位
- */
-@property (nonatomic, retain) NSString*  sessionFrom;
+@interface ShowMessageFromWXResp : BaseResp
 @end
+
 
 #pragma mark - LaunchFromWXReq
 /*! @brief 微信终端打开第三方程序携带的消息结构体
@@ -586,16 +524,6 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @attention 长度不能超过1024
  */
 @property(nonatomic, copy) NSString *url;
-
-@end
-
-
-#pragma mark - OpenTempSessionResp
-/*! @brief 微信终端向第三方程序返回的OpenTempSessionReq处理结果。
- *
- * 第三方程序向微信终端发送OpenTempSessionReq后，微信发送回来的处理结果，该结果用OpenTempSessionResp表示。
- */
-@interface OpenTempSessionResp : BaseResp
 
 @end
 
@@ -654,47 +582,6 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * 第三方通知微信，打开硬件排行榜
  */
 @interface OpenRankListReq : BaseReq
-
-@end
-
-#pragma mark - JumpToBizProfileReq
-/* ! @brief 第三方通知微信，打开指定微信号profile页面
- *
- * 第三方通知微信，打开指定微信号profile页面
- */
-@interface JumpToBizProfileReq : BaseReq
-/** 跳转到该公众号的profile
- * @attention 长度不能超过512字节
- */
-@property (nonatomic, retain) NSString* username;
-/** 如果用户加了该公众号为好友，extMsg会上传到服务器
- * @attention 长度不能超过1024字节
- */
-@property (nonatomic, retain) NSString* extMsg;
-/**
- * 跳转的公众号类型
- * @see WXBizProfileType
- */
-@property (nonatomic, assign) int profileType;
-@end
-
-#pragma mark - JumpToBizWebviewReq
-/* ! @brief 第三方通知微信，打开指定usrname的profile网页版
- *
- */
-@interface JumpToBizWebviewReq : BaseReq
-/** 跳转的网页类型，目前只支持广告页
- * @see WXMPWebviewType
- */
-@property(nonatomic, assign) int webType;
-/** 跳转到该公众号的profile网页版
- * @attention 长度不能超过512字节
- */
-@property(nonatomic, retain) NSString* tousrname;
-/** 如果用户加了该公众号为好友，extMsg会上传到服务器
- * @attention 长度不能超过1024字节
- */
-@property(nonatomic, retain) NSString* extMsg;
 
 @end
 

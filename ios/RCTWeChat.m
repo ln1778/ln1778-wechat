@@ -7,7 +7,7 @@
 //
 
 #import "RCTWeChat.h"
-#import "WechatApiObject.h"
+#import "WxApiObject.h"
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
@@ -43,7 +43,7 @@ RCT_EXPORT_MODULE()
     NSString * aURLString =  [aNotification userInfo][@"url"];
     NSURL * aURL = [NSURL URLWithString:aURLString];
 
-    if ([WechatApi handleOpenURL:aURL delegate:self])
+    if ([WxChatApi handleOpenURL:aURL delegate:self])
     {
         return YES;
     } else {
@@ -64,39 +64,39 @@ RCT_EXPORT_METHOD(registerApp:(NSString *)appid
                   :(RCTResponseSenderBlock)callback)
 {
     self.appId = appid;
-    callback(@[[WechatApi registerApp:appid] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi registerApp:appid] ? [NSNull null] : INVOKE_FAILED]);
 }
 
 RCT_EXPORT_METHOD(registerAppWithDescription:(NSString *)appid
                   :(NSString *)appdesc
                   :(RCTResponseSenderBlock)callback)
 {
-    callback(@[[WechatApi registerApp:appid withDescription:appdesc] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi registerApp:appid withDescription:appdesc] ? [NSNull null] : INVOKE_FAILED]);
 }
 
 RCT_EXPORT_METHOD(isWXAppInstalled:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], @([WechatApi isWXAppInstalled])]);
+    callback(@[[NSNull null], @([WxChatApi isWXAppInstalled])]);
 }
 
 RCT_EXPORT_METHOD(isWXAppSupportApi:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], @([WechatApi isWXAppSupportApi])]);
+    callback(@[[NSNull null], @([WxChatApi isWXAppSupportApi])]);
 }
 
 RCT_EXPORT_METHOD(getWXAppInstallUrl:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], [WechatApi getWXAppInstallUrl]]);
+    callback(@[[NSNull null], [WxChatApi getWXAppInstallUrl]]);
 }
 
 RCT_EXPORT_METHOD(getApiVersion:(RCTResponseSenderBlock)callback)
 {
-    callback(@[[NSNull null], [WechatApi getApiVersion]]);
+    callback(@[[NSNull null], [WxChatApi getApiVersion]]);
 }
 
 RCT_EXPORT_METHOD(openWXApp:(RCTResponseSenderBlock)callback)
 {
-    callback(@[([WechatApi openWXApp] ? [NSNull null] : INVOKE_FAILED)]);
+    callback(@[([WxChatApi openWXApp] ? [NSNull null] : INVOKE_FAILED)]);
 }
 
 RCT_EXPORT_METHOD(sendRequest:(NSString *)openid
@@ -104,7 +104,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSString *)openid
 {
     BaseReq* req = [[BaseReq alloc] init];
     req.openID = openid;
-    callback(@[[WechatApi sendReq:req] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi sendReq:req] ? [NSNull null] : INVOKE_FAILED]);
 }
 RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
                   :(NSString *)url
@@ -114,7 +114,8 @@ RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];;
     req.corpId = corpId;                                  // 企业ID
     req.url = url;
-    api.sendReq(req);
+   BOOL success = [WxChatApi sendReq:launchMiniProgramReq];
+    callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 RCT_EXPORT_METHOD(launchMiniProgramReq:(NSString *)userName
                   :(NSString *)path
@@ -123,8 +124,8 @@ RCT_EXPORT_METHOD(launchMiniProgramReq:(NSString *)userName
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = userName;  //拉起的小程序的username
     launchMiniProgramReq.path = path;    ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-    launchMiniProgramReq.miniProgramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE; //拉起小程序的类型
-    BOOL success = [WechatApi sendReq:launchMiniProgramReq];
+    launchMiniProgramReq.miniProgramType = 0; //拉起小程序的类型
+    BOOL success = [WxChatApi sendReq:launchMiniProgramReq];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 
@@ -137,7 +138,7 @@ RCT_EXPORT_METHOD(subscribeMsgReq:(NSString *)scene
     req.scene = scene;
     req.templateId = templateId;
     req.reserved = reserved;
-    BOOL success = [WechatApi sendReq:req];
+    BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 RCT_EXPORT_METHOD(sendAuthRequest:(NSString *)scope
@@ -147,7 +148,7 @@ RCT_EXPORT_METHOD(sendAuthRequest:(NSString *)scope
     SendAuthReq* req = [[SendAuthReq alloc] init];
     req.scope = scope;
     req.state = state;
-    BOOL success = [WechatApi sendReq:req];
+    BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 
@@ -155,7 +156,7 @@ RCT_EXPORT_METHOD(sendSuccessResponse:(RCTResponseSenderBlock)callback)
 {
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXSuccess;
-    callback(@[[WechatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
 }
 
 RCT_EXPORT_METHOD(sendErrorCommonResponse:(NSString *)message
@@ -164,7 +165,7 @@ RCT_EXPORT_METHOD(sendErrorCommonResponse:(NSString *)message
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXErrCodeCommon;
     resp.errStr = message;
-    callback(@[[WechatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
 }
 
 RCT_EXPORT_METHOD(sendErrorUserCancelResponse:(NSString *)message
@@ -173,7 +174,7 @@ RCT_EXPORT_METHOD(sendErrorUserCancelResponse:(NSString *)message
     BaseResp* resp = [[BaseResp alloc] init];
     resp.errCode = WXErrCodeUserCancel;
     resp.errStr = message;
-    callback(@[[WechatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
+    callback(@[[WxChatApi sendResp:resp] ? [NSNull null] : INVOKE_FAILED]);
 }
 
 RCT_EXPORT_METHOD(shareToTimeline:(NSDictionary *)data
@@ -204,7 +205,7 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.timeStamp           = [data[@"timeStamp"] unsignedIntValue];
     req.package             = data[@"package"];
     req.sign                = data[@"sign"];
-    BOOL success = [WechatApi sendReq:req];
+    BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 
@@ -351,7 +352,7 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.scene = aScene;
     req.text = text;
 
-    BOOL success = [WechatApi sendReq:req];
+    BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 
@@ -379,7 +380,7 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     req.scene = aScene;
     req.message = message;
 
-    BOOL success = [WechatApi sendReq:req];
+    BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 

@@ -31,7 +31,17 @@
 
 @end
 
++ (void)sendReq:(BaseReq *)req completion:(void (^ __nullable)(BOOL success))completion;
 
++ (void)sendResp:(BaseResp*)resp completion:(void (^ __nullable)(BOOL success))completion;
+
+#pragma mark - WeChatApiLogDelegate
+
+@protocol WeChatApiLogDelegate <NSObject>
+
+- (void)onLog:(NSString*)log logLevel:(WXLogLevel)level;
+
+@end
 
 #pragma mark - WxChatApi
 
@@ -40,6 +50,9 @@
  * 该类封装了微信终端SDK的所有接口
  */
 @interface WxChatApi : NSObject
+
+
++ (BOOL)registerApp:(NSString *)appid universalLink:(NSString *)universalLink;
 
 /*! @brief WxChatApi的成员函数，向微信终端程序注册第三方应用。
  *
@@ -74,23 +87,60 @@
 
 
 
-/*! @brief 处理微信通过URL启动App时传递的数据
+
+/*! @brief 处理旧版微信通过URL启动App时传递的数据
  *
  * 需要在 application:openURL:sourceApplication:annotation:或者application:handleOpenURL中调用。
  * @param url 微信启动第三方应用时传递过来的URL
  * @param delegate  WxChatApiDelegate对象，用来接收微信触发的消息。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) handleOpenURL:(NSURL *) url delegate:(id<WxChatApiDelegate>) delegate;
++ (BOOL)handleOpenURL:(NSURL *)url delegate:(nullable id<WxChatApiDelegate>)delegate;
 
+
+/*! @brief 处理微信通过Universal Link启动App时传递的数据
+ *
+ * 需要在 application:continueUserActivity:restorationHandler:中调用。
+ * @param userActivity 微信启动第三方应用时系统API传递过来的userActivity
+ * @param delegate  WxChatApiDelegate对象，用来接收微信触发的消息。
+ * @return 成功返回YES，失败返回NO。
+ */
++ (BOOL)handleOpenUniversalLink:(NSUserActivity *)userActivity delegate:(nullable id<WxChatApiDelegate>)delegate;
 
 
 /*! @brief 检查微信是否已被用户安装
  *
  * @return 微信已安装返回YES，未安装返回NO。
  */
-+(BOOL) isWXAppInstalled;
++ (BOOL)isWXAppInstalled;
 
+
+
+/*! @brief 判断当前微信的版本是否支持OpenApi
+ *
+ * @return 支持返回YES，不支持返回NO。
+ */
++ (BOOL)isWXAppSupportApi;
+
+
+/*! @brief 判断当前微信的版本是否支持分享微信状态功能
+ *
+ * @attention 需在工程LSApplicationQueriesSchemes配置中添加weixinStateAPI
+ * @return 支持返回YES，不支持返回NO。
+ */
++ (BOOL)isWXAppSupportStateAPI;
+
+
+
+#ifndef BUILD_WITHOUT_PAY
+/*! @brief 判断当前微信的版本是否支持二维码拉起微信支付
+ *
+ * @attention 需在工程LSApplicationQueriesSchemes配置中添加weixinQRCodePayAPI
+ * @return 支持返回YES，不支持返回NO。
+ */
++ (BOOL)isWXAppSupportQRCodePayAPI;
+
+#endif
 
 
 /*! @brief 判断当前微信的版本是否支持OpenApi
@@ -121,8 +171,7 @@
  *
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) openWXApp;
-
++ (BOOL)openWXApp;
 
 
 /*! @brief 发送请求到微信，等待微信返回onResp
@@ -132,7 +181,7 @@
  * @param req 具体的发送请求，在调用函数后，请自己释放。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) sendReq:(BaseReq*)req;
+
 
 /*! @brief 发送Auth请求到微信，支持用户没安装微信，等待微信返回onResp
  *
@@ -142,17 +191,42 @@
  * @param delegate  WxChatApiDelegate对象，用来接收微信触发的消息。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) sendAuthReq:(SendAuthReq*)req viewController:(UIViewController*)viewController delegate:(id<WxChatApiDelegate>)delegate;
+*/
++ (void)sendAuthReq:(SendAuthReq *)req viewController:(UIViewController*)viewController delegate:(nullable id<WxChatApiDelegate>)delegate completion:(void (^ __nullable)(BOOL success))completion;
 
-
-/*! @brief 收到微信onReq的请求，发送对应的应答给微信，并切换到微信界面
+/*! @brief 测试函数，用于排查当前App通过Universal Link方式分享到微信的流程
+    注意1:  调用自检函数之前必须要先调用registerApp:universalLink接口, 并确认调用成功
+    注意2:  自检过程中会有Log产生，可以先调用startLogByLevel函数，根据Log排查问题
+    注意3:  会多次回调block
+    注意4:  仅用于新接入SDK时调试使用，请勿在正式环境的调用
  *
- * 函数调用后，会切换到微信的界面。第三方应用程序收到微信onReq的请求，异步处理该请求，完成后必须调用该函数。可能发送的相应有
- * GetMessageFromWXResp、ShowMessageFromWXResp等。
- * @param resp 具体的应答内容，调用函数后，请自己释放
- * @return 成功返回YES，失败返回NO。
+ *  当completion回调的step为WXULCheckStepFinal时，表示检测通过，Universal Link接入成功
+ *  @param completion 回调Block
  */
-+(BOOL) sendResp:(BaseResp*)resp;
++ (void)checkUniversalLinkReady:(nonnull WXCheckULCompletion)completion;
 
+
+/*! @brief WXApi的成员函数，接受微信的log信息。byBlock
+    注意1:SDK会强引用这个block,注意不要导致内存泄漏,注意不要导致内存泄漏
+    注意2:调用过一次startLog by block之后，如果再调用一次任意方式的startLoad,会释放上一次logBlock，不再回调上一个logBlock
+ *
+ *  @param level 打印log的级别
+ *  @param logBlock 打印log的回调block
+ */
+
++ (void)startLogByLevel:(WXLogLevel)level logBlock:(WXLogBolock)logBlock;
+
+/*! @brief WXApi的成员函数，接受微信的log信息。byDelegate
+    注意1:sdk会弱引用这个delegate，这里可加任意对象为代理，不需要与WxChatApiDelegate同一个对象
+    注意2:调用过一次startLog by delegate之后，再调用一次任意方式的startLoad,不会再回调上一个logDelegate对象
+ *  @param level 打印log的级别
+ *  @param logDelegate 打印log的回调代理，
+ */
++ (void)startLogByLevel:(WXLogLevel)level logDelegate:(id<WeChatApiLogDelegate>)logDelegate;
+
+/*! @brief 停止打印log，会清理block或者delegate为空，释放block
+ *  @param
+ */
++ (void)stopLog;
 
 @end

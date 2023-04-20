@@ -11,7 +11,7 @@
 
 #import <React/RCTBridgeModule.h>
 //#import "WXApi.h"
-#import <WXApi.h>
+//#import <WXApi.h>
 #import "WxChatApi.h"
 
 

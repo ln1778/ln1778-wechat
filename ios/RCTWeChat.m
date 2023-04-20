@@ -111,9 +111,9 @@ RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
                   :(RCTResponseSenderBlock)callback)
 {
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];;
-    req.corpId = corpId;                                  // 企业ID
+    req.corpid = corpId;                                  // 企业ID
     req.url = url;
-   BOOL success = [WxChatApi sendReq:launchMiniProgramReq];
+   BOOL success = [WxChatApi sendReq:req];
     callback(@[success ? [NSNull null] : INVOKE_FAILED]);
 }
 RCT_EXPORT_METHOD(launchMiniProgramReq:(NSString *)userName

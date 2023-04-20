@@ -110,7 +110,6 @@ RCT_EXPORT_METHOD(openCustomerServiceChat:(NSString *)corpId
                   :(NSString *)url
                   :(RCTResponseSenderBlock)callback)
 {
-    BaseReq* req = [[BaseReq alloc] init];
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];;
     req.corpId = corpId;                                  // 企业ID
     req.url = url;

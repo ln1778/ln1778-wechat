@@ -1,6 +1,6 @@
 {
   "name": "ln1778-wechat",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "wechat",
   "main": "index.js",
   "scripts": {

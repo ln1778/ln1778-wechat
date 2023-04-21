@@ -4,7 +4,7 @@ Copy lines to `android/settings.gradle`:
 
 ```gradle
 include ':RCTWeChat'
-project(':RCTWeChat').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wechat/android')
+project(':RCTWeChat').projectDir = new File(rootProject.projectDir, '../node_modules/ln1778-wechat/android')
 ```
 
 Copy lines to `android/app/build.gradle`

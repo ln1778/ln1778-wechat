@@ -30,6 +30,8 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.SubscribeMessage;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -106,7 +108,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     @ReactMethod
-    public void registerApp(String appid,String universalLink, Callback callback) {
+    public void registerApp(String appid, Callback callback) {
         this.appId = appid;
         api = WXAPIFactory.createWXAPI(this.getReactApplicationContext().getBaseContext(), appid, true);
         callback.invoke(null, api.registerApp(appid));
@@ -155,14 +157,14 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     @ReactMethod
-    public void subscribeMsgReq(String scope,String templateId,String reserved, Callback callback) {
+    public void subscribeMsgReq(int scope,String templateId,String reserved, Callback callback) {
         if (api == null) {
             callback.invoke(NOT_REGISTERED);
             return;
         }
            SubscribeMessage.Req req = new SubscribeMessage.Req();
-            req.scene = scene;
-            req.templateID = templateID;
+            req.scene = scope;
+            req.templateID = templateId;
             req.reserved = reserved;
             callback.invoke(null, api.sendReq(req));
     }

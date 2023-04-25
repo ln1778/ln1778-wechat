@@ -103,6 +103,11 @@ export const subscribeMsgReq=wrapRegisterApp(WeChat.subscribeMsgReq);
  * @return {Promise}
  */
 export const isWXAppInstalled = wrapApi(WeChat.isWXAppInstalled);
+export const initVoice = wrapApi(WeChat.initVoice);
+export const voiceDestroy = wrapApi(WeChat.voiceDestroy);
+export const startVoice = wrapApi(WeChat.startVoice);
+export const stopVoice = wrapApi(WeChat.stopVoice);
+export const calcelVoice = wrapApi(WeChat.calcelVoice);
 
 /**
  * Return if the wechat application supports the api

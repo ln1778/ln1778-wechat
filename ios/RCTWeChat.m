@@ -12,7 +12,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
 #import <React/RCTImageLoader.h>
-
+#import "WXVoiceSDK.h"
 
 // Define error messages
 #define NOT_REGISTERED (@"registerApp required.")
@@ -31,6 +31,11 @@ RCT_EXPORT_MODULE()
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"RCTOpenURLNotification" object:nil];
     }
     return self;
+}
+
+- (NSArray<NSString *> *)supportedEvents
+{
+  return @[@"voiceback",@"voiceError"];
 }
 
 - (void)dealloc
@@ -218,6 +223,61 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
     [WXApi sendReq:req completion:^(BOOL success) {
         callback(@[success? [NSNull null] : INVOKE_FAILED]);
     }];
+}
+
+
+RCT_EXPORT_METHOD(initVoice:(RCTResponseSenderBlock)callback)
+{
+  WXVoiceSDK *speechRecognizer= [WXVoiceSDK sharedWXVoice];
+  speechRecognizer.delegate = self;
+  speechRecognizer.silTime = 1.5f;
+  [speechRecognizer setAppID:@"wxa49daa9ce8c695d8"];
+  callback(@[@"true"]);
+}
+RCT_EXPORT_METHOD(voiceDestroy)
+{
+ 
+}
+
+-(void)voiceInputMakeError:(NSInteger)errorCode{
+  
+  [self sendEventWithName:@"voiceError" body:@"错误"];
+}
+
+-(void)voiceInputResultArray:(NSArray *)array{
+  if (array && array.count>0)
+  {
+      WXVoiceResult *result=[array objectAtIndex:0];
+      self.voiceresult=result.text;
+      [self sendEventWithName:@"voiceback" body:result.text];
+  }else{
+    self.voiceresult=@"";
+    [self sendEventWithName:@"voiceback" body:@""];
+  }
+}
+RCT_EXPORT_METHOD(getVoiceResult:(RCTResponseSenderBlock)callback)
+{
+  callback(self.voiceresult);
+}
+
+RCT_EXPORT_METHOD(startVoice:(RCTResponseSenderBlock)callback)
+{
+  bool state=[[WXVoiceSDK sharedWXVoice] startOnce];
+  if(state){
+    callback(@[@"true"]);
+  }else{
+    callback(@[@"false"]);
+  }
+}
+
+RCT_EXPORT_METHOD(stopVoice)
+{
+ [[WXVoiceSDK sharedWXVoice] finish];
+}
+
+RCT_EXPORT_METHOD(calcelVoice)
+{
+ [[WXVoiceSDK sharedWXVoice] cancel];
 }
 
 - (void)shareToWeixinWithData:(NSDictionary *)aData

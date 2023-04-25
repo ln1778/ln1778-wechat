@@ -1,4 +1,4 @@
-package com.theweflex.react;
+package com.ln1778.wechat;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

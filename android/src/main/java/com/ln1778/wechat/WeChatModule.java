@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
-import com.facebook.common.internal.Files;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.common.util.UriUtil;
 import com.facebook.datasource.DataSource;
@@ -22,32 +22,52 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.SubscribeMessage;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXFileObject;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMusicObject;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayResp;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-
-
-import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Created by tdzl2_000 on 2015-10-10.
  */
-public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEventHandler,VoiceRecognizerListener {
+public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEventHandler{
     private String appId;
 
     private IWXAPI api = null;
     private final static String NOT_REGISTERED = "registerApp required.";
     private final static String INVOKE_FAILED = "WeChat API invoke returns false.";
     private final static String INVALID_ARGUMENT = "invalid argument.";
-
+    private String voiceresult="";
+    private Callback voiceback=null;
+    private ReactContext mcontext;
     public WeChatModule(ReactApplicationContext context) {
         super(context);
+        this.mcontext=context;
     }
 
     @Override
@@ -81,36 +101,8 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
         }
         modules.remove(this);
     }
-    @Override
-    public void onGetError(int arg0) {
-// TODO Auto-generated method stub
-    }
-    @Override
-    public void onGetResult(VoiceRecognizerResult result) {
-// TODO Auto-generated method stub
-        String res = "";
-        if (result != null && result.words != null) {
-            int wordSize = result.words.size();
-            StringBuilder results = new StringBuilder();
-            for (int i = 0; i<wordsize; ++i)="" {=""
-                Word word = (Word) result.
-                        words.get(i);
-                if (word != null && word.text != null){
-                    results.append("\r\n");
-                    results.append(word.text.replace(" ", ""));
-                }
-            }
-            results.append("\r\n");
-            res = results.toString();
-        }
-    }
-    @Overridepublic void onGetVoiceRecordState(VoiceRecordState state) {
-// TODO Auto-generated method stub
-    }
-    @Override
-    public void onVolumeChanged(int arg0) {
-// TODO Auto-generated method stub
-    }
+
+
     public static void handleIntent(Intent intent) {
         for (WeChatModule mod : modules) {
             mod.api.handleIntent(intent, mod);
@@ -118,7 +110,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     @ReactMethod
-    public void registerApp(String appid, Callback callback) {
+    public void registerApp(String appid,Callback callback) {
         this.appId = appid;
         api = WXAPIFactory.createWXAPI(this.getReactApplicationContext().getBaseContext(), appid, true);
         callback.invoke(null, api.registerApp(appid));
@@ -167,14 +159,14 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     @ReactMethod
-    public void subscribeMsgReq(String scope,String templateId,String reserved, Callback callback) {
+    public void subscribeMsgReq(int scope,String templateId,String reserved, Callback callback) {
         if (api == null) {
             callback.invoke(NOT_REGISTERED);
             return;
         }
            SubscribeMessage.Req req = new SubscribeMessage.Req();
-            req.scene = scene;
-            req.templateID = templateID;
+            req.scene = scope;
+            req.templateID = templateId;
             req.reserved = reserved;
             callback.invoke(null, api.sendReq(req));
     }
@@ -195,10 +187,12 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
 
     @ReactMethod
     public void sendAuthRequest(String scope, String state, Callback callback) {
+        Log.d("sendAuthRequestscope","start");
         if (api == null) {
             callback.invoke(NOT_REGISTERED);
             return;
         }
+        Log.d("sendAuthRequestscope",scope);
          SendAuth.Req req = new SendAuth.Req();
 
         req.scope = scope;
@@ -232,60 +226,6 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
             return;
         }
         _share(SendMessageToWX.Req.WXSceneFavorite, data, callback);
-    }
-    @ReactMethod
-    public void initVoice(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-        VoiceRecognizer.shareInstance().setSilentTime(1000);
-        VoiceRecognizer.shareInstance().setListener((VoiceRecognizerListener)this);
-        if (VoiceRecognizer.shareInstance().init(this, screKey) != 0) {
-//初始化失败
-        }
-    }
-    @ReactMethod
-    public void getVoiceResult(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-
-    }
-    @ReactMethod
-    public void voiceDestroy(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-        VoiceRecognizer.shareInstance().destroy();
-    }
-    @ReactMethod
-    public void startVoice(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-
-        VoiceRecognizer.shareInstance().start();
-       // VoiceRecognizerGrammar.shareInstance().start(text, type)
-    }
-    @ReactMethod
-    public void stopVoice(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-        VoiceRecognizer.shareInstance().stop();
-    }
-    @ReactMethod
-    public void calcelVoice(Callback callback) {
-        if (api == null) {
-            callback.invoke(NOT_REGISTERED);
-            return;
-        }
-        VoiceRecognizer.shareInstance().cancel();
     }
     @ReactMethod
     public void pay(ReadableMap data, Callback callback) {
@@ -584,14 +524,17 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
 
     }
 
+
+
     @Override
     public void onResp(BaseResp baseResp) {
+        Log.d("onRespopenId","true");
         WritableMap map = Arguments.createMap();
         map.putInt("errCode", baseResp.errCode);
         map.putString("errStr", baseResp.errStr);
         map.putString("openId", baseResp.openId);
         map.putString("transaction", baseResp.transaction);
-
+        Log.d("onResperrStr",baseResp.errStr);
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp resp = (SendAuth.Resp) (baseResp);
 
@@ -614,6 +557,8 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("WeChat_Resp", map);
     }
+
+
 
     private interface ImageCallback {
         void invoke(@Nullable Bitmap bitmap);

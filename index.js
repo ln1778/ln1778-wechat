@@ -4,14 +4,17 @@ import { DeviceEventEmitter, NativeModules, Platform } from 'react-native';
 import { EventEmitter } from 'events';
 
 let isAppRegistered = false;
-const { WeChat } = NativeModules;
+const { WeChat,Voice } = NativeModules;
 
 // Event emitter to dispatch request and response from WeChat.
 const emitter = new EventEmitter();
 
 DeviceEventEmitter.addListener('WeChat_Resp', resp => {
+  console.log(resp,"resp");
   emitter.emit(resp.type, resp);
 });
+
+
 
 function wrapRegisterApp(nativeFunc) {
   if (!nativeFunc) {
@@ -24,18 +27,35 @@ function wrapRegisterApp(nativeFunc) {
     }
     isAppRegistered = true;
     return new Promise((resolve, reject) => {
-      nativeFunc.apply(null, [
-        ...args,
-        (error, result) => {
-          if (!error) {
-            return resolve(result);
-          }
-          if (typeof error === 'string') {
-            return reject(new Error(error));
-          }
-          reject(error);
-        },
-      ]);
+      console.log(args,"args");
+      if(Platform.OS=="ios"){
+        nativeFunc.apply(null, [
+          ...args,
+          (error, result) => {
+            if (!error) {
+              return resolve(result);
+            }
+            if (typeof error === 'string') {
+              return reject(new Error(error));
+            }
+            reject(error);
+          },
+        ]);
+      }else{
+            nativeFunc.apply(null, [
+              args[0],
+          (error, result) => {
+            if (!error) {
+              return resolve(result);
+            }
+            if (typeof error === 'string') {
+              return reject(new Error(error));
+            }
+            reject(error);
+          },
+        ]);
+      }
+  
     });
   };
 }
@@ -94,8 +114,8 @@ export const removeAllListeners = emitter.removeAllListeners.bind(emitter);
  * @return {Promise}
  */
 export const registerApp = wrapRegisterApp(WeChat.registerApp);
-export const launchMiniProgramReq=wrapRegisterApp(WeChat.launchMiniProgramReq);
-export const subscribeMsgReq=wrapRegisterApp(WeChat.subscribeMsgReq);
+export const launchMiniProgramReq=wrapApi(WeChat.launchMiniProgramReq);
+export const subscribeMsgReq=wrapApi(WeChat.subscribeMsgReq);
 
 /**
  * Return if the wechat app is installed in the device.
@@ -103,11 +123,6 @@ export const subscribeMsgReq=wrapRegisterApp(WeChat.subscribeMsgReq);
  * @return {Promise}
  */
 export const isWXAppInstalled = wrapApi(WeChat.isWXAppInstalled);
-export const initVoice = wrapApi(WeChat.initVoice);
-export const voiceDestroy = wrapApi(WeChat.voiceDestroy);
-export const startVoice = wrapApi(WeChat.startVoice);
-export const stopVoice = wrapApi(WeChat.stopVoice);
-export const calcelVoice = wrapApi(WeChat.calcelVoice);
 
 /**
  * Return if the wechat application supports the api
@@ -144,6 +159,17 @@ const nativeShareToTimeline = wrapApi(WeChat.shareToTimeline);
 const nativeShareToSession = wrapApi(WeChat.shareToSession);
 const nativeShareToFavorite = wrapApi(WeChat.shareToFavorite);
 const nativeSendAuthRequest = wrapApi(WeChat.sendAuthRequest);
+export const startVoice = wrapApi(Voice.startVoice);
+
+export const cancelVoice = wrapApi(Voice.cancelVoice);
+
+export function initVoice(appid){
+  return new Promise((resolve, reject) => {
+    Voice.initVoice(appid,(state) => {
+      resolve(state);
+    });
+  });
+}
 
 /**
  * @method sendAuthRequest
@@ -152,8 +178,11 @@ const nativeSendAuthRequest = wrapApi(WeChat.sendAuthRequest);
  */
 export function sendAuthRequest(scopes, state) {
   return new Promise((resolve, reject) => {
-    WeChat.sendAuthRequest(scopes, state, () => {});
+    console.log(scopes, state,"scopes, state");
+    WeChat.sendAuthRequest(scopes, state, (err,state) => {
+    });
     emitter.once('SendAuth.Resp', resp => {
+      console.log(resp,'resp');
       if (resp.errCode === 0) {
         resolve(resp);
       } else {
@@ -162,6 +191,17 @@ export function sendAuthRequest(scopes, state) {
     });
   });
 }
+export function stopVoice(){
+  WeChat.stopVoice();
+  emitter.once('StopVoice.Resp', resp => {
+    if (resp.errCode === 0) {
+      resolve(resp);
+    } else {
+      reject(new WechatError(resp));
+    }
+});
+}
+
 
 /**
  * Share something to timeline/moments/朋友圈

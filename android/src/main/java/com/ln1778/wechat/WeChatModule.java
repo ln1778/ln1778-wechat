@@ -22,7 +22,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -57,17 +56,14 @@ import java.util.UUID;
  */
 public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEventHandler{
     private String appId;
-
+    private String TAG="WeChatModule";
     private IWXAPI api = null;
     private final static String NOT_REGISTERED = "registerApp required.";
     private final static String INVOKE_FAILED = "WeChat API invoke returns false.";
     private final static String INVALID_ARGUMENT = "invalid argument.";
-    private String voiceresult="";
-    private Callback voiceback=null;
-    private ReactContext mcontext;
+
     public WeChatModule(ReactApplicationContext context) {
         super(context);
-        this.mcontext=context;
     }
 
     @Override
@@ -187,12 +183,10 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
 
     @ReactMethod
     public void sendAuthRequest(String scope, String state, Callback callback) {
-        Log.d("sendAuthRequestscope","start");
         if (api == null) {
             callback.invoke(NOT_REGISTERED);
             return;
         }
-        Log.d("sendAuthRequestscope",scope);
          SendAuth.Req req = new SendAuth.Req();
 
         req.scope = scope;
@@ -528,22 +522,22 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Log.d("onRespopenId","true");
+        Log.d(TAG,"onResp:true");
         WritableMap map = Arguments.createMap();
         map.putInt("errCode", baseResp.errCode);
         map.putString("errStr", baseResp.errStr);
         map.putString("openId", baseResp.openId);
         map.putString("transaction", baseResp.transaction);
-        Log.d("onResperrStr",baseResp.errStr);
+        Log.d(TAG,"onResperrStr"+baseResp.errStr);
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp resp = (SendAuth.Resp) (baseResp);
-
             map.putString("type", "SendAuth.Resp");
             map.putString("code", resp.code);
             map.putString("state", resp.state);
             map.putString("url", resp.url);
             map.putString("lang", resp.lang);
             map.putString("country", resp.country);
+            Log.d(TAG,"code:"+resp.code);
         } else if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) (baseResp);
             map.putString("type", "SendMessageToWX.Resp");

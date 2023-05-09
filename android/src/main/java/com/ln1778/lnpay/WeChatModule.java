@@ -1,4 +1,4 @@
-package com.ln1778.wechat;
+package com.ln1778.lnpay;
 
 import android.content.Context;
 import android.content.Intent;

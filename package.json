@@ -1,6 +1,6 @@
 {
   "name": "ln1778-lnpay",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "wechat",
   "main": "index.js",
   "scripts": {

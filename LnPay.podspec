@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.name         = "LnPay"
   s.version      = version
   s.summary      = "Alipay,Wechat SDK for React Native. "
-  s.description  = "Alipay,Wechat SDK for React Native. "
+  s.description  = "Wechat,Alipay SDK for React Native. "
   s.author       = { "ln1778" => "liunan1776@gmail.com" }
   s.homepage     = "https://github.com/ln1778/ln1778-wechat"
   s.license      = "MIT"
@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.dependency "React"
   s.vendored_libraries = 'ios/libWechatOpenSDK.a'
   s.requires_arc = true
-  s.frameworks = 'SystemConfiguration','CoreTelephony', 'QuartzCore', 'CoreText', "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion",'AlipaySDK.framework'
+  s.frameworks = 'SystemConfiguration','CoreTelephony', 'QuartzCore', 'CoreText', "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion",'AlipaySDK'
   s.library = 'sqlite3','c++','z'
 end

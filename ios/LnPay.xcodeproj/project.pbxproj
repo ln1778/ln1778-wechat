@@ -87,7 +87,7 @@
 				AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */,
 				86D238581BD0BC2200C75D01 /* WXApi.h */,
 				86D238591BD0BC2200C75D01 /* WXApiObject.h */,
-				86D238441BD0BB9E00C75D01 /* RCTWeChat */,
+				86D238441BD0BB9E00C75D01 /* LnPay */,
 				10D6D7A51F160C250066F0F3 /* RCTWeChatTests */,
 				86D238431BD0BB9E00C75D01 /* Products */,
 				7682D5AEF0540C8FD33E603C /* Frameworks */,
@@ -103,13 +103,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		86D238441BD0BB9E00C75D01 /* RCTWeChat */ = {
+		86D238441BD0BB9E00C75D01 /* LnPay */ = {
 			isa = PBXGroup;
 			children = (
 				86D238541BD0BC1000C75D01 /* RCTWeChat.h */,
 				86D238551BD0BC1000C75D01 /* RCTWeChat.m */,
 			);
-			path = RCTWeChat;
+			path = LnPay;
 			sourceTree = "<group>";
 			usesTabs = 0;
 		};

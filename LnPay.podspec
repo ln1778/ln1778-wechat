@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.dependency "React"
   s.vendored_libraries = 'ios/libWechatOpenSDK.a','libAlipaySDK.a'
   s.requires_arc = true
-  s.frameworks = 'SystemConfiguration','CoreTelephony, "QuartzCore", "CoreText", "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion'
+  s.frameworks = 'SystemConfiguration','CoreTelephony', 'QuartzCore', 'CoreText', "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion",'AlipaySDK.framework'
   s.library = 'sqlite3','c++','z'
 end

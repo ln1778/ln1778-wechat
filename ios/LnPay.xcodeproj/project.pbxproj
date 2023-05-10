@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		10D6D7A71F160C250066F0F3 /* LnPayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6D7A61F160C250066F0F3 /* LnPayTests.m */; };
 		86D238561BD0BC1000C75D01 /* RCTWeChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D238551BD0BC1000C75D01 /* RCTWeChat.m */; };
-		AA3E52ED29F1AF9500F3BDA1 /* libWechatOpenSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */; };
 		AA5A81182A0C008400BB7B6F /* RCTAlipay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5A81122A0C008400BB7B6F /* RCTAlipay.m */; };
-		AA5A81192A0C009D00BB7B6F /* libAlipaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */; };
-		AAC3E9202A0C00F10023064C /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */; };
+		AAC3E9242A0C0A620023064C /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AAC3E9232A0C0A560023064C /* AlipaySDK.bundle */; };
+		AAC3E9272A0C0A850023064C /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC3E9262A0C0A840023064C /* AlipaySDK.framework */; };
+		AAC3E9282A0C0AB20023064C /* libWechatOpenSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,15 +46,15 @@
 		86D238551BD0BC1000C75D01 /* RCTWeChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTWeChat.m; sourceTree = SOURCE_ROOT; };
 		86D238581BD0BC2200C75D01 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		86D238591BD0BC2200C75D01 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWechatOpenSDK.a; sourceTree = "<group>"; };
-		AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
-		AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAlipaySDK.a; sourceTree = "<group>"; };
 		AA5A81122A0C008400BB7B6F /* RCTAlipay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAlipay.m; sourceTree = SOURCE_ROOT; };
 		AA5A81132A0C008400BB7B6F /* AFServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceResponse.h; sourceTree = SOURCE_ROOT; };
 		AA5A81142A0C008400BB7B6F /* APayAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APayAuthInfo.h; sourceTree = SOURCE_ROOT; };
 		AA5A81152A0C008400BB7B6F /* AFServiceCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceCenter.h; sourceTree = SOURCE_ROOT; };
 		AA5A81162A0C008400BB7B6F /* RCTAlipay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAlipay.h; sourceTree = SOURCE_ROOT; };
 		AA5A81172A0C008400BB7B6F /* AlipaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipaySDK.h; sourceTree = SOURCE_ROOT; };
+		AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWechatOpenSDK.a; sourceTree = "<group>"; };
+		AAC3E9232A0C0A560023064C /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		AAC3E9262A0C0A840023064C /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA5A81192A0C009D00BB7B6F /* libAlipaySDK.a in Frameworks */,
-				AA3E52ED29F1AF9500F3BDA1 /* libWechatOpenSDK.a in Frameworks */,
+				AAC3E9282A0C0AB20023064C /* libWechatOpenSDK.a in Frameworks */,
+				AAC3E9272A0C0A850023064C /* AlipaySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +89,7 @@
 		7682D5AEF0540C8FD33E603C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AAC3E9262A0C0A840023064C /* AlipaySDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -96,9 +97,8 @@
 		86D238391BD0BB9E00C75D01 = {
 			isa = PBXGroup;
 			children = (
-				AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */,
-				AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */,
-				AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */,
+				AAC3E9232A0C0A560023064C /* AlipaySDK.bundle */,
+				AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */,
 				86D238581BD0BC2200C75D01 /* WXApi.h */,
 				86D238591BD0BC2200C75D01 /* WXApiObject.h */,
 				86D238441BD0BB9E00C75D01 /* LnPay */,
@@ -226,7 +226,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC3E9202A0C00F10023064C /* AlipaySDK.bundle in Resources */,
+				AAC3E9242A0C0A620023064C /* AlipaySDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +451,10 @@
 		86D2384C1BD0BB9E00C75D01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
@@ -466,6 +470,10 @@
 		86D2384D1BD0BB9E00C75D01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",

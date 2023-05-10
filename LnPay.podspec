@@ -1,23 +1,18 @@
-#
-#  Be sure to run `pod spec lint RCTWeChat.podspec' to ensure this is a
-#  valid spec and to remove all comments including this before submitting the spec.
-#
-#  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
-#  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#
+
+require "json"
+version = JSON.parse(File.read("package.json"))["version"]
+
 
 Pod::Spec.new do |s|
   s.name         = "LnPay"
-  s.version      = "0.0.4"
+  s.version      = version
   s.summary      = "Alipay,Wechat SDK for React Native. "
-  s.description  = <<-DESC
-  Alipay,Wechat SDK for React Native.
-   DESC
+  s.description  = "Alipay,Wechat SDK for React Native. "
   s.author       = { "ln1778" => "liunan1776@gmail.com" }
-  s.homepage     = "https://github.com/ln1778/ln1778-wechat.git"
+  s.homepage     = "https://github.com/ln1778/ln1778-wechat"
   s.license      = "MIT"
   s.platform     = :ios, "12.4"
-  s.source       = { :git => "https://github.com/ln1778/ln1778-wechat.git", :tag => "master" }
+  s.source       = { :git => "https://github.com/ln1778/ln1778-wechat.git",tag: "v" + s.version.to_s }
   s.source_files  = "ios/*.{h,m}"
   s.resource = 'AlipaySDK.bundle'
   s.dependency "React"

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "86D238411BD0BB9E00C75D01"
-               BuildableName = "libRCTWeChat.a"
-               BlueprintName = "RCTWeChat"
-               ReferencedContainer = "container:RCTWeChat.xcodeproj">
+               BuildableName = "libLnPay.a"
+               BlueprintName = "LnPay"
+               ReferencedContainer = "container:LnPay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "86D238411BD0BB9E00C75D01"
-            BuildableName = "libRCTWeChat.a"
-            BlueprintName = "RCTWeChat"
-            ReferencedContainer = "container:RCTWeChat.xcodeproj">
+            BuildableName = "libLnPay.a"
+            BlueprintName = "LnPay"
+            ReferencedContainer = "container:LnPay.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "86D238411BD0BB9E00C75D01"
-            BuildableName = "libRCTWeChat.a"
-            BlueprintName = "RCTWeChat"
-            ReferencedContainer = "container:RCTWeChat.xcodeproj">
+            BuildableName = "libLnPay.a"
+            BlueprintName = "LnPay"
+            ReferencedContainer = "container:LnPay.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "86D238411BD0BB9E00C75D01"
-            BuildableName = "libRCTWeChat.a"
-            BlueprintName = "RCTWeChat"
-            ReferencedContainer = "container:RCTWeChat.xcodeproj">
+            BuildableName = "libLnPay.a"
+            BlueprintName = "LnPay"
+            ReferencedContainer = "container:LnPay.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

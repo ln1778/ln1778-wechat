@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10D6D7A71F160C250066F0F3 /* RCTWeChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6D7A61F160C250066F0F3 /* RCTWeChatTests.m */; };
+		10D6D7A71F160C250066F0F3 /* LnPayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6D7A61F160C250066F0F3 /* LnPayTests.m */; };
 		86D238561BD0BC1000C75D01 /* RCTWeChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D238551BD0BC1000C75D01 /* RCTWeChat.m */; };
 		AA3E52ED29F1AF9500F3BDA1 /* libWechatOpenSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */; };
+		AA5A81182A0C008400BB7B6F /* RCTAlipay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5A81122A0C008400BB7B6F /* RCTAlipay.m */; };
+		AA5A81192A0C009D00BB7B6F /* libAlipaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */; };
+		AAC3E9202A0C00F10023064C /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,15 +38,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		10D6D7A41F160C250066F0F3 /* RCTWeChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCTWeChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		10D6D7A61F160C250066F0F3 /* RCTWeChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTWeChatTests.m; sourceTree = "<group>"; };
+		10D6D7A41F160C250066F0F3 /* LnPayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LnPayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		10D6D7A61F160C250066F0F3 /* LnPayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LnPayTests.m; sourceTree = "<group>"; };
 		10D6D7A81F160C250066F0F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		86D238421BD0BB9E00C75D01 /* libWechatOpenSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libWechatOpenSDK.a; path = libRCTWeChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		86D238421BD0BB9E00C75D01 /* libLnPay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLnPay.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		86D238541BD0BC1000C75D01 /* RCTWeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTWeChat.h; sourceTree = SOURCE_ROOT; };
 		86D238551BD0BC1000C75D01 /* RCTWeChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTWeChat.m; sourceTree = SOURCE_ROOT; };
 		86D238581BD0BC2200C75D01 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		86D238591BD0BC2200C75D01 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWechatOpenSDK.a; sourceTree = "<group>"; };
+		AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAlipaySDK.a; sourceTree = "<group>"; };
+		AA5A81122A0C008400BB7B6F /* RCTAlipay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAlipay.m; sourceTree = SOURCE_ROOT; };
+		AA5A81132A0C008400BB7B6F /* AFServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceResponse.h; sourceTree = SOURCE_ROOT; };
+		AA5A81142A0C008400BB7B6F /* APayAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APayAuthInfo.h; sourceTree = SOURCE_ROOT; };
+		AA5A81152A0C008400BB7B6F /* AFServiceCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceCenter.h; sourceTree = SOURCE_ROOT; };
+		AA5A81162A0C008400BB7B6F /* RCTAlipay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAlipay.h; sourceTree = SOURCE_ROOT; };
+		AA5A81172A0C008400BB7B6F /* AlipaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipaySDK.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5A81192A0C009D00BB7B6F /* libAlipaySDK.a in Frameworks */,
 				AA3E52ED29F1AF9500F3BDA1 /* libWechatOpenSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,13 +77,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		10D6D7A51F160C250066F0F3 /* RCTWeChatTests */ = {
+		10D6D7A51F160C250066F0F3 /* LnPayTests */ = {
 			isa = PBXGroup;
 			children = (
-				10D6D7A61F160C250066F0F3 /* RCTWeChatTests.m */,
+				10D6D7A61F160C250066F0F3 /* LnPayTests.m */,
 				10D6D7A81F160C250066F0F3 /* Info.plist */,
 			);
-			path = RCTWeChatTests;
+			path = LnPayTests;
 			sourceTree = "<group>";
 		};
 		7682D5AEF0540C8FD33E603C /* Frameworks */ = {
@@ -84,11 +96,13 @@
 		86D238391BD0BB9E00C75D01 = {
 			isa = PBXGroup;
 			children = (
+				AA5A81112A0C006500BB7B6F /* libAlipaySDK.a */,
+				AA5A81102A0C005000BB7B6F /* AlipaySDK.bundle */,
 				AA3E52EA29F1AF0400F3BDA1 /* libWechatOpenSDK.a */,
 				86D238581BD0BC2200C75D01 /* WXApi.h */,
 				86D238591BD0BC2200C75D01 /* WXApiObject.h */,
 				86D238441BD0BB9E00C75D01 /* LnPay */,
-				10D6D7A51F160C250066F0F3 /* RCTWeChatTests */,
+				10D6D7A51F160C250066F0F3 /* LnPayTests */,
 				86D238431BD0BB9E00C75D01 /* Products */,
 				7682D5AEF0540C8FD33E603C /* Frameworks */,
 			);
@@ -97,8 +111,8 @@
 		86D238431BD0BB9E00C75D01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				86D238421BD0BB9E00C75D01 /* libWechatOpenSDK.a */,
-				10D6D7A41F160C250066F0F3 /* RCTWeChatTests.xctest */,
+				86D238421BD0BB9E00C75D01 /* libLnPay.a */,
+				10D6D7A41F160C250066F0F3 /* LnPayTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,6 +120,12 @@
 		86D238441BD0BB9E00C75D01 /* LnPay */ = {
 			isa = PBXGroup;
 			children = (
+				AA5A81152A0C008400BB7B6F /* AFServiceCenter.h */,
+				AA5A81132A0C008400BB7B6F /* AFServiceResponse.h */,
+				AA5A81172A0C008400BB7B6F /* AlipaySDK.h */,
+				AA5A81142A0C008400BB7B6F /* APayAuthInfo.h */,
+				AA5A81162A0C008400BB7B6F /* RCTAlipay.h */,
+				AA5A81122A0C008400BB7B6F /* RCTAlipay.m */,
 				86D238541BD0BC1000C75D01 /* RCTWeChat.h */,
 				86D238551BD0BC1000C75D01 /* RCTWeChat.m */,
 			);
@@ -116,9 +136,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		10D6D7A31F160C250066F0F3 /* RCTWeChatTests */ = {
+		10D6D7A31F160C250066F0F3 /* LnPayTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10D6D7AC1F160C250066F0F3 /* Build configuration list for PBXNativeTarget "RCTWeChatTests" */;
+			buildConfigurationList = 10D6D7AC1F160C250066F0F3 /* Build configuration list for PBXNativeTarget "LnPayTests" */;
 			buildPhases = (
 				CDACDE23873B4E39871168D6 /* [CP] Check Pods Manifest.lock */,
 				10D6D7A01F160C250066F0F3 /* Sources */,
@@ -132,26 +152,27 @@
 			dependencies = (
 				10D6D7AB1F160C250066F0F3 /* PBXTargetDependency */,
 			);
-			name = RCTWeChatTests;
+			name = LnPayTests;
 			productName = RCTWeChatTests;
-			productReference = 10D6D7A41F160C250066F0F3 /* RCTWeChatTests.xctest */;
+			productReference = 10D6D7A41F160C250066F0F3 /* LnPayTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		86D238411BD0BB9E00C75D01 /* RCTWeChat */ = {
+		86D238411BD0BB9E00C75D01 /* LnPay */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 86D2384B1BD0BB9E00C75D01 /* Build configuration list for PBXNativeTarget "RCTWeChat" */;
+			buildConfigurationList = 86D2384B1BD0BB9E00C75D01 /* Build configuration list for PBXNativeTarget "LnPay" */;
 			buildPhases = (
 				86D2383E1BD0BB9E00C75D01 /* Sources */,
 				86D2383F1BD0BB9E00C75D01 /* Frameworks */,
 				86D238401BD0BB9E00C75D01 /* CopyFiles */,
+				AAC3E91F2A0C00E60023064C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = RCTWeChat;
+			name = LnPay;
 			productName = RCTWeChat;
-			productReference = 86D238421BD0BB9E00C75D01 /* libWechatOpenSDK.a */;
+			productReference = 86D238421BD0BB9E00C75D01 /* libLnPay.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -174,7 +195,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 86D2383D1BD0BB9E00C75D01 /* Build configuration list for PBXProject "RCTWeChat" */;
+			buildConfigurationList = 86D2383D1BD0BB9E00C75D01 /* Build configuration list for PBXProject "LnPay" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -187,8 +208,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				86D238411BD0BB9E00C75D01 /* RCTWeChat */,
-				10D6D7A31F160C250066F0F3 /* RCTWeChatTests */,
+				86D238411BD0BB9E00C75D01 /* LnPay */,
+				10D6D7A31F160C250066F0F3 /* LnPayTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,6 +219,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC3E91F2A0C00E60023064C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC3E9202A0C00F10023064C /* AlipaySDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10D6D7A71F160C250066F0F3 /* RCTWeChatTests.m in Sources */,
+				10D6D7A71F160C250066F0F3 /* LnPayTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86D238561BD0BC1000C75D01 /* RCTWeChat.m in Sources */,
+				AA5A81182A0C008400BB7B6F /* RCTAlipay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +320,7 @@
 /* Begin PBXTargetDependency section */
 		10D6D7AB1F160C250066F0F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 86D238411BD0BB9E00C75D01 /* RCTWeChat */;
+			target = 86D238411BD0BB9E00C75D01 /* LnPay */;
 			targetProxy = 10D6D7AA1F160C250066F0F3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -451,7 +481,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		10D6D7AC1F160C250066F0F3 /* Build configuration list for PBXNativeTarget "RCTWeChatTests" */ = {
+		10D6D7AC1F160C250066F0F3 /* Build configuration list for PBXNativeTarget "LnPayTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				10D6D7AD1F160C250066F0F3 /* Debug */,
@@ -460,7 +490,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		86D2383D1BD0BB9E00C75D01 /* Build configuration list for PBXProject "RCTWeChat" */ = {
+		86D2383D1BD0BB9E00C75D01 /* Build configuration list for PBXProject "LnPay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86D238491BD0BB9E00C75D01 /* Debug */,
@@ -469,7 +499,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		86D2384B1BD0BB9E00C75D01 /* Build configuration list for PBXNativeTarget "RCTWeChat" */ = {
+		86D2384B1BD0BB9E00C75D01 /* Build configuration list for PBXNativeTarget "LnPay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86D2384C1BD0BB9E00C75D01 /* Debug */,

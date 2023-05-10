@@ -1,3 +1,4 @@
+
 //
 //  RCTWeChatTests.m
 //  RCTWeChatTests
@@ -8,11 +9,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface RCTWeChatTests : XCTestCase
+@interface LnPayTests : XCTestCase
 
 @end
 
-@implementation RCTWeChatTests
+@implementation LnPayTests
 
 - (void)setUp {
     [super setUp];

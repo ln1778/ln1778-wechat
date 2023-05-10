@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:RCTWeChat.xcodeproj">
+      location = "group:/Users/ln/project/ln1778-wechat/ios/LnPay.xcodeproj">
    </FileRef>
 </Workspace>

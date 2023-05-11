@@ -1,6 +1,6 @@
 'use strict';
 import WeChatModele from "./WeChatModele";
-import AlipayModule from "./alipayModule";
+// import AlipayModule from "./alipayModule";
 
 
-export default {WeChatModele,AlipayModule};
+export default {WeChatModele};

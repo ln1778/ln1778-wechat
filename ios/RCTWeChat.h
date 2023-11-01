@@ -35,7 +35,7 @@
 #define RCTWXEventName @"WeChat_Resp"
 
 @interface RCTWeChat : NSObject <RCTBridgeModule,WXApiDelegate>
-
++ (RCTWeChat *) sharedInstance;
 @property NSString* appId;
 @property (nonatomic, strong) NSString *voiceresult;
 

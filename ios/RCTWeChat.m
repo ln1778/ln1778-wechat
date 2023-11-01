@@ -32,6 +32,17 @@ RCT_EXPORT_MODULE()
 }
 
 
++ (RCTWeChat *) sharedInstance
+{
+  static RCTWeChat *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[RCTWeChat alloc] init];
+  });
+
+  return sharedInstance;
+}
 
 - (void)dealloc
 {

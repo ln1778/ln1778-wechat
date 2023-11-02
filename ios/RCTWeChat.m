@@ -12,6 +12,9 @@
 #import <React/RCTBridge.h>
 #import <React/RCTLog.h>
 #import <React/RCTImageLoader.h>
+#import <Lnssh/UpdateManager.h>
+
+
 // Define error messages
 #define NOT_REGISTERED (@"registerApp required.")
 #define INVOKE_FAILED (@"WeChat API invoke returns false.")
@@ -20,7 +23,8 @@
 
 @synthesize bridge = _bridge;
 
-RCT_EXPORT_MODULE()
+RCT_EXPORT_MODULE(WeChat)
+
 
 - (instancetype)init
 {
@@ -31,6 +35,15 @@ RCT_EXPORT_MODULE()
     return self;
 }
 
+
++(id)allocWithZone:(NSZone *)zone {
+  static RCTWeChat *msharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      msharedInstance = [super allocWithZone:zone];
+  });
+  return msharedInstance;
+}
 
 + (RCTWeChat *) sharedInstance
 {
@@ -48,6 +61,12 @@ RCT_EXPORT_MODULE()
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[@"wechat_resp"];
+}
+
 
 - (BOOL)handleOpenURL:(NSNotification *)aNotification
 {
@@ -75,9 +94,14 @@ RCT_EXPORT_METHOD(registerApp:(NSString *)appid
                   :(NSString *)universalLink
                   :(RCTResponseSenderBlock)callback)
 {
-    self.appId = appid;
-   bool state=[WXApi registerApp:appid universalLink:universalLink];
-  callback(@[state ? [NSNull null] : INVOKE_FAILED]);
+
+    if(self.appId){
+        callback(@[true ? [NSNull null] : INVOKE_FAILED]);
+    }else{
+            self.appId = appid;
+           bool state=[WXApi registerApp:appid universalLink:universalLink];
+          callback(@[state ? [NSNull null] : INVOKE_FAILED]);
+    }
 }
 
 
@@ -426,7 +450,8 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
 	    body[@"lang"] = r.lang;
 	    body[@"country"] =r.country;
 	    body[@"type"] = @"SendMessageToWX.Resp";
-	    [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
+        [self sendEventWithName:RCTWXEventName body:body];
+	   // [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
 	} else if ([resp isKindOfClass:[SendAuthResp class]]) {
 	    SendAuthResp *r = (SendAuthResp *)resp;
 	    NSMutableDictionary *body = @{@"errCode":@(r.errCode)}.mutableCopy;
@@ -437,14 +462,18 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
 	    body[@"type"] = @"SendAuth.Resp";
     
 	    if (resp.errCode == WXSuccess) {
-	        if (self.appId && r) {
-		    // ios第一次获取不到appid会卡死，加个判断OK		
-		    [body addEntriesFromDictionary:@{@"appid":self.appId, @"code":r.code}];
-		    [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
+	        if (self.appId&&r) {
+		    // ios第一次获取不到appid会卡死，加个判断OK
+//     	    [body addEntriesFromDictionary:@{@"appid":self.appId, @"code":r.code}];
+                body[@"appid"]=self.appId;
+                body[@"code"]=r.code;
+                [self sendEventWithName:RCTWXEventName body:body];
+		   // [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
 	        }
 	    }
 	    else {
-	        [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
+            [self sendEventWithName:RCTWXEventName body:body];
+	        //[self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
 	    }
 	} else if ([resp isKindOfClass:[PayResp class]]) {
 	        PayResp *r = (PayResp *)resp;
@@ -453,7 +482,10 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)data
 	        body[@"type"] = @(r.type);
 	        body[@"returnKey"] =r.returnKey;
 	        body[@"type"] = @"PayReq.Resp";
-	        [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
+            [self sendEventWithName:RCTWXEventName body:body];
+        
+         // [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
+	      //  [self.bridge.eventDispatcher sendDeviceEventWithName:RCTWXEventName body:body];
     	}
 }
 

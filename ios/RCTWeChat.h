@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import <React/RCTEventEmitter.h>
 #import <React/RCTBridgeModule.h>
+#import <React/RCTRootView.h>
 //#import "WXApi.h"
 #import <WXApi.h>
 //#import "WXApi.h"
@@ -32,9 +33,9 @@
 #define RCTWXShareWebpageUrl @"webpageUrl"
 #define RCTWXShareImageUrl @"imageUrl"
 
-#define RCTWXEventName @"WeChat_Resp"
+#define RCTWXEventName @"wechat_resp"
 
-@interface RCTWeChat : NSObject <RCTBridgeModule,WXApiDelegate>
+@interface RCTWeChat:RCTEventEmitter <RCTBridgeModule,WXApiDelegate>
 + (RCTWeChat *) sharedInstance;
 @property NSString* appId;
 @property (nonatomic, strong) NSString *voiceresult;

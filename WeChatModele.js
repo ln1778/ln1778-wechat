@@ -1,6 +1,6 @@
 'use strict';
 
-import { DeviceEventEmitter, NativeModules, Platform } from 'react-native';
+import { DeviceEventEmitter, NativeModules, Platform,NativeEventEmitter } from 'react-native';
 import { EventEmitter } from 'events';
 
 let isAppRegistered = false;
@@ -9,10 +9,20 @@ const { WeChat } = NativeModules;
 // Event emitter to dispatch request and response from WeChat.
 const emitter = new EventEmitter();
 
-DeviceEventEmitter.addListener('WeChat_Resp', resp => {
-  console.log(resp,"resp");
-  emitter.emit(resp.type, resp);
-});
+const WeChatEmitter = new NativeEventEmitter(WeChat);
+
+const subscription = WeChatEmitter.addListener(
+  'wechat_resp',
+  (resp) =>{
+    console.log(resp,"resp");
+    emitter.emit(resp.type, resp);
+  }
+);
+
+// DeviceEventEmitter.addListener('WeChat_Resp', resp => {
+//   console.log(resp,"resp");
+//   emitter.emit(resp.type, resp);
+// });
 
 
 
@@ -114,6 +124,7 @@ function wrapApi(nativeFunc) {
  * @return {Promise}
  */
  const registerApp = wrapRegisterApp(WeChat.registerApp);
+
  const launchMiniProgramReq=(username,path)=>{
     new Promise((r,j)=>{
       WeChat.launchMiniProgramReq(username,path,(err,result)=>{
@@ -168,6 +179,7 @@ const nativeSendAuthRequest = wrapApi(WeChat.sendAuthRequest);
   return new Promise((resolve, reject) => {
     WeChat.sendAuthRequest(scopes, state, () => {});
     emitter.once('SendAuth.Resp', resp => {
+      console.log(resp,"SendAuth.Resp")
       if (resp.errCode === 0) {
         resolve(resp);
       } else {

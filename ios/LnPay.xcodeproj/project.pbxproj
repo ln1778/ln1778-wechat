@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		10D6D7A71F160C250066F0F3 /* LnPayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6D7A61F160C250066F0F3 /* LnPayTests.m */; };
 		86D238561BD0BC1000C75D01 /* RCTWeChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D238551BD0BC1000C75D01 /* RCTWeChat.m */; };
-		AAC3E9282A0C0AB20023064C /* libWechatOpenSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */; };
+		AAF608CE2AF3629300504920 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF608CD2AF3628400504920 /* libWeChatSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,7 @@
 		86D238591BD0BC2200C75D01 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		AA5A81132A0C008400BB7B6F /* AFServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceResponse.h; sourceTree = SOURCE_ROOT; };
 		AA5A81152A0C008400BB7B6F /* AFServiceCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFServiceCenter.h; sourceTree = SOURCE_ROOT; };
-		AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWechatOpenSDK.a; sourceTree = "<group>"; };
+		AAF608CD2AF3628400504920 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC3E9282A0C0AB20023064C /* libWechatOpenSDK.a in Frameworks */,
+				AAF608CE2AF3629300504920 /* libWeChatSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,9 +86,9 @@
 		86D238391BD0BB9E00C75D01 = {
 			isa = PBXGroup;
 			children = (
-				AAC3E9212A0C0A550023064C /* libWechatOpenSDK.a */,
 				86D238581BD0BC2200C75D01 /* WXApi.h */,
 				86D238591BD0BC2200C75D01 /* WXApiObject.h */,
+				AAF608CD2AF3628400504920 /* libWeChatSDK.a */,
 				86D238441BD0BB9E00C75D01 /* LnPay */,
 				10D6D7A51F160C250066F0F3 /* LnPayTests */,
 				86D238431BD0BB9E00C75D01 /* Products */,

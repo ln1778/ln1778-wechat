@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/*.{h,m}"
   s.resource = 'AlipaySDK.bundle'
   s.dependency "React"
-  s.vendored_libraries = 'ios/libWechatOpenSDK.a'
+  s.vendored_libraries = 'ios/libWeChatSDK.a'
   s.requires_arc = true
   s.frameworks = 'SystemConfiguration','CoreTelephony', 'QuartzCore', 'CoreText', "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion",'AlipaySDK'
   s.library = 'sqlite3','c++','z'

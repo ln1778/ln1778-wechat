@@ -1,6 +1,6 @@
 {
   "name": "ln1778-lnpay",
-  "version": "0.0.14",
+  "version": "0.0.16",
   "description": "Alipay,Wechat SDK for React Native.",
   "main": "index.js",
   "scripts": {
